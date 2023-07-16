@@ -1,43 +1,43 @@
-import React from "react";
-import { useState } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../firebase';
+import React,{useEffect,useState} from "react";
+import Chats from './Chats';
 
-const Search = ()=>{
-  const searchRecords = async (searchTerm) => {
-    try {
-      const recordsRef = collection(db, 'records');
-      const q = query(recordsRef, where('fieldToSearch', '==', searchTerm));
-      const querySnapshot = await getDocs(q);
-  
-      const results = [];
-      querySnapshot.forEach((doc) => {
-        const recordData = doc.data();
-        results.push(recordData);
-      });
-  
-      // Xử lý kết quả tìm kiếm
-      console.log(results);
-    } catch (error) {
-      console.error('Lỗi khi tìm kiếm bản ghi:', error);
-    }
+const Search = ({rooms})=>{
+// console.log(rooms);
+  const [searchTerm, setSearchTerm] = useState('');
+    const [searchResult, setSearchResult] = useState([]);
+
+  const handleSearchInput = (event) => {
+    setSearchTerm(event.target.value);
   };
-  
+
+
+  useEffect(() => {
+    if (searchTerm.trim() !== '') {
+      const result = rooms.filter((room) =>
+        room.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchResult(result);
+    } else {
+      setSearchResult([]);
+    }
+  }, [searchTerm]);
+
     return (
         <div className="search">
         <div className="searchForm">
-          <input
-            type="text"
-            placeholder="Find a group"
-          />
+         <input
+        type="text"
+        value={searchTerm}
+        onChange={handleSearchInput}
+        placeholder="Search rooms by name..."
+      />
         </div>
        
-          <div className="userChat" >
-            <img src='https://images.pexels.com/photos/17440855/pexels-photo-17440855/free-photo-of-den-va-tr-ng-th-i-trang-nh-ng-ng-i-dan-ba.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load' alt="" />
-            <div className="userChatInfo">
-              <span>Group one</span>
-            </div>
-          </div>
+        <ul>
+        {searchResult.map((room) => (
+         <Chats  key={room.id} room={room} />
+        ))}
+      </ul>
       </div>
     )
 }

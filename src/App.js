@@ -1,7 +1,8 @@
 import Home from './pages/Home';
-import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
+import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import "./style.scss";
-import { useContext } from 'react';
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
             }
           />
         </Route>
+       
       </Routes>
     </BrowserRouter>
   );
