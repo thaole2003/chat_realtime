@@ -20,7 +20,18 @@ z-index: 12;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
+const Button = styled.button`
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
 
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
 const Title = styled.h1`
   font-size: 24px;
   margin-bottom: 16px;
@@ -35,17 +46,18 @@ const Input = styled.input`
 const CheckboxList = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 `;
 
 const CheckboxItem = styled.div`
   margin-bottom: 8px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
 `;
 
 const Checkbox = styled.input`
   margin-right: 8px;
+  /* width: 8px; */
 `;
 
 const Addmember = () => {
@@ -64,10 +76,10 @@ const roomContext = useContext(RoomContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState([]);
      console.log(myU.uid);
-    const handleSearchQueryChange = (event) => {
-        setSearchQuery(event.target.value);
-        console.log(searchQuery);
-      };
+    // const handleSearchQueryChange = (event) => {
+    //     setSearchQuery(event.target.value);
+    //     console.log(searchQuery);
+    //   };
       const [roomData, setRoomData] = useState(null);
       useEffect(() => {
         const fetchRoomData = async () => {
@@ -110,7 +122,7 @@ const roomContext = useContext(RoomContext);
           };
         }
       }, [searchQuery]);
-  console.log(users);
+  // console.log(users);
 
     const handleSaveUsersToRoom = async () => {
       try {
@@ -122,7 +134,9 @@ const roomContext = useContext(RoomContext);
           const updatedUsers = [...roomData.users, ...selectedUsers];
           
           await updateDoc(roomRef, { users: updatedUsers });
+          setSelectedUsers([]);
           console.log('Đã cập nhật thành công users trong room.');
+          alert('Thêm thành công người dùng vào nhóm')
         } else {
           console.log('Room không tồn tại.');
         }
@@ -136,25 +150,26 @@ const roomContext = useContext(RoomContext);
   return (
     <CenteredWrapper>
       <Title>Mời thành viên</Title>
-      <Input
+      {/* <Input
         type="text"
         value={searchQuery}
         onChange={handleSearchQueryChange}
         placeholder="Nhập dữ liệu..."
-      />
+      /> */}
  <CheckboxList>
         {users.map((user) => (
-         !roomData.users.includes(user.uid) && <CheckboxItem key={user.uid}>
+         !roomData.users.includes(user.uid) && 
+         <CheckboxItem key={user.uid}>
           <Checkbox
             type="checkbox"
             checked={selectedUsers.includes(user.uid)}
             onChange={(e) => handleCheckboxChange(user.uid, e.target.checked)}
           />
-          <span>{user.displayName}</span>
+          <span className='text-black'>{user.displayName}</span>
         </CheckboxItem>
         ))}
       </CheckboxList>
-      <button onClick={handleSaveUsersToRoom}>Lưu thông tin</button>
+      <Button onClick={handleSaveUsersToRoom}  disabled={selectedUsers.length === 0}>Lưu thông tin</Button>
     </CenteredWrapper>
   );
 };

@@ -1,22 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext,useRef} from "react";
 import add from '../img/icon_add.png'
 import iconCacel from '../img/iconCancel.png'
-import { db } from '../firebase';
-import { query, collection,  onSnapshot,where,getDocs,orderBy,} from 'firebase/firestore';
+import { db,auth } from '../firebase';
+import { query, collection,  onSnapshot,where,getDocs,getDoc,orderBy} from 'firebase/firestore';
 import SendMessage from "./SendMessage";
 import MessageChat from "./MessageChat";
-import {auth} from '../firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { RoomContext } from "../RoomContext"; 
 import Addmember from './Addmember';
+import LogOut from "./Auth/LogOut";
+import SignIn from "./Auth/SignIn";
 const Chat = ()=>{
   const [showComponent, setShowComponent] = useState(false);
-  // const [srcIcon, setSrcIcon] = useState('add');
+  const scrollRef = useRef(null);
 
   const handleButtonClick = () => {
     setShowComponent(!showComponent);
-    // setSrcIcon(srcIcon== 'add' ? 'iconCacel': 'add' )
-    // console.log(showComponent);
   };
   const scrollContainer = document.getElementById('scroll-container');
   window.addEventListener('change',()=>{
@@ -34,38 +33,15 @@ const Chat = ()=>{
   }
 
   const [user] = useAuthState(auth)
-  const [oRoom,setORoom] = useState([])
+  // const [oRoom,setORoom] = useState([])
   const [roomId, setRoomId] = useState('');
   const [messages, setMessages] = useState([]);
   const [isRoomIdSet, setIsRoomIdSet] = useState(false);
   const contextRoom = useContext(RoomContext);
-  // console.log('context room:' +contextRoom);
-  // console.log('context id:' +contextRoom.roomid);
-  // console.log('context isRoomIdSet:' +isRoomIdSet);
-  // console.log('context roomid:' +roomId);
   useEffect(() => {
-    if (!isRoomIdSet && roomId) {
-      const getRoomById = async () => {
-        try {
-          const q = query(collection(db, 'rooms'), where('id', '==', roomId));
-          const querySnapshot = await getDocs(q);
-    
-          if (!querySnapshot.empty) {
-            const roomData = querySnapshot.docs[0].data();
-            setORoom([{ ...roomData, id: querySnapshot.docs[0].id }]);
-          } else {
-            setORoom([]); // Nếu không tìm thấy bản ghi với roomId, setORoom thành mảng rỗng
-          }
-        } catch (error) {
-          console.error('Error getting room data:', error);
-          // Xử lý lỗi nếu có
-        }
-      };
-  
-      getRoomById();
-    }
-  }, [isRoomIdSet, roomId]);
-  console.log(oRoom);
+    // Auto scroll to the bottom when messages change or component mounts
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messages]);
   useEffect(() => {
     if (contextRoom.roomid && !isRoomIdSet) {
       setRoomId(contextRoom.roomid);
@@ -103,27 +79,39 @@ const Chat = ()=>{
     return (
         <div className="chat flex flex-col relative gap-2">
         <div className="chatInfo w-full top-0 bg-violet-700">
-          <span></span>
-          <div className="chatIcons  content-center">
-          {contextRoom.roomname && (
+       
+
+          <div className="chatIcons flex ">
+          { user &&  roomId && contextRoom.roomname && (
   <label htmlFor="" className="text-xl flex gap-2 content-center">
-    <p>Phòng chat :</p>
-    <p className="text-pink-700">{contextRoom.roomname} </p> |
+    <div>Phòng chat :</div>
+    <p className="text-pink-700">{contextRoom.roomname} </p>  |
+    {user &&  roomId &&  <img onClick={handleButtonClick} className="pr-3 pb-2" src={!showComponent? add : iconCacel} alt="" /> } 
+   
   </label>
 )}
-          { roomId &&  <img onClick={handleButtonClick} className="pr-3" src={!showComponent? add : iconCacel} alt="" /> } 
           {showComponent && <Addmember handleButtonClick ={handleButtonClick}/>}
+       
+          </div>
+          <div className="chatIcons">
+          {user ? <LogOut user={user} /> : <SignIn />}
+
           </div>
         </div>
-        <div   className="flex flex-col p-[10px] messages overflow-y-scroll">
-        {user && messages && messages.map((message) => (
-                    <MessageChat  key={message.id} message={message} />
-                    
-                  ))}
+        <div ref={scrollRef}   className="flex flex-col p-[10px]  messages overflow-y-scroll">
+        {
+  user && messages ? (
+    messages.map((message) => (
+      <MessageChat key={message.id} message={message} />
+    ))
+  ) : (
+    <div className="text-white text-2xl">Hãy đăng nhập và chọn phòng để bắt đầu sử dụng!</div>
+  )
+}
         </div>
-       <div id="scroll-container"></div>
+       <div id="scroll-container"  ></div>
         <div className="sendchat  w-full absolute bottom-0 h-[50px]">
-                    {user && roomId &&  <SendMessage /> }
+                    {user && roomId &&  <SendMessage  /> }
                     
           </div>
      
