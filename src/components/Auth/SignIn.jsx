@@ -4,7 +4,7 @@ import {GoogleAuthProvider,signInWithRedirect} from 'firebase/auth'
 import {addDoc, collection,  serverTimestamp, query, where, getDocs} from 'firebase/firestore'
 
 const style = {
-  wrapper: `self-center`
+  wrapper: `self-center cursor-pointer`
 };
 
 const googleSignIn = () => {

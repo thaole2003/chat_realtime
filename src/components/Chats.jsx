@@ -1,5 +1,8 @@
 import React,{useContext} from "react";
 import { RoomContext } from "../RoomContext";
+const style = {
+  active: `bg-sky-700`
+};
 const Chats = ({room})=>{
   const context = useContext(RoomContext);
   const handleClick = () => {
@@ -11,11 +14,14 @@ const Chats = ({room})=>{
     return (
    
 
-        <div className="chats" onClick={handleClick}>
+      <div
+      className={`chats ${context.activeRoom === room.id ? style.active : ""}`}
+      onClick={handleClick}
+    >
         <div className="userChat">
         <div className="userChatInfo">
           <span>{room.name}</span>
-           <p>{room.description}</p>
+           <div>{room.description}</div>
        </div>
      </div>
        </div>
