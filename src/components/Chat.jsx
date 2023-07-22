@@ -83,15 +83,14 @@ const Chat = ()=>{
 
           <div className="chatIcons flex ">
           { user &&  roomId && contextRoom.roomname && (
-  <label htmlFor="" className="text-xl flex gap-2 content-center">
-    <div>Phòng chat :</div>
-    <p className="text-pink-700">{contextRoom.roomname} </p>  |
+  <label htmlFor="" className="text-xl font-bold flex gap-2 content-center">
+    <div className="hidden lg:block">Phòng chat :</div>
+    <p className="text-white shadow-xl shadow-slate-200">{contextRoom.roomname} </p>  |
     {user &&  roomId &&  <img onClick={handleButtonClick} className="pr-3 pb-2" src={!showComponent? add : iconCacel} alt="" /> } 
    
   </label>
 )}
           {showComponent && <Addmember handleButtonClick ={handleButtonClick}/>}
-       
           </div>
           <div className="chatIcons">
           {user ? <LogOut user={user} /> : <SignIn />}

@@ -10,15 +10,14 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 import CreateChatRoom from "./ChatRoom";
 import styled from 'styled-components';
 import classNames from 'classnames';
-
+import { RoomContext } from "../RoomContext";
 
 const Sidebar = ()=>{
-  const [showComponent, setShowComponent] = useState(false);
+  const roomContext = useContext(RoomContext);
+  const showComponent= roomContext.showComponent;
+  // const [showComponent, setShowComponent] = useState(false);
 
-  const handleButtonClick = () => {
-    setShowComponent(!showComponent);
-    // console.log(showComponent);
-  };
+  const handleButtonClick = roomContext.showCreat;
 
   const [rooms, setRooms] = useState([]);
   const [user] = useAuthState(auth)
@@ -44,12 +43,16 @@ const Sidebar = ()=>{
     return (
         <Container className="sidebar ">
         <Navbar />
-        {user && rooms && <Search rooms={rooms}/> }
+        <div className="z-50">
+        {user && rooms && <Search  rooms={rooms}/> }
+
+        </div>
+        <hr />
         {user && (
   <>
-    <Bt onClick={handleButtonClick} className="flex content-center gap-2">
+    <Bt onClick={handleButtonClick} className="flex items-center p-2 gap-2">
       <BtIMG src={!showComponent ?addg : iconCacel} alt="" />
-      <p className="text-xl pt-3 text-white">Thêm phòng</p>
+      <div className="text-xl text-white hidden lg:block">Thêm phòng</div>
     </Bt>
     {showComponent && <CreateChatRoom />}
   </>
