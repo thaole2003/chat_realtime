@@ -14,7 +14,7 @@ const Navbar = ()=>{
           {/* <MessageOutlined /> */}
           {/* <MessageInstance/> */}
           {/* <img className=" w-8 h-8" src={iconMess} alt="" /> */}
-        <span className="logo text-2xl pt-5 self-center font-sans text-base font-bold uppercase basis-1/3 flex gap-1 content-center "><p className="text-red-600">Funny</p><p className="text-blue-600">Chat</p></span>
+        <span className="logo text-2xl pt-5 self-center font-sans text-base font-bold uppercase basis-1/3 flex gap-1 content-center "><p className="text-red-400">Funny</p><p className="text-blue-500">Chat</p></span>
        
       </div>
     )

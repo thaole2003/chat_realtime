@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {auth, db} from '../firebase'
 import {addDoc, collection, serverTimestamp} from 'firebase/firestore'
 import { MyContext } from './Chat';
+import { RoomContext } from '../RoomContext';
 // Styled Components
 const Container = styled.div`
 z-index: 999;
@@ -13,6 +14,7 @@ z-index: 999;
   background-color: #f0f0f0;
   padding: 20px;
   width: 400px;
+  border-radius: 20px;
   h2{
     text-align: center;
     text-transform: uppercase;
@@ -33,6 +35,7 @@ const Input = styled.input`
   width: 100%;
   padding: 5px;
   border: 1px solid #ccc;
+  border-radius: 10px;
 `;
 
 const Button = styled.button`
@@ -41,7 +44,7 @@ const Button = styled.button`
   padding: 8px 16px;
   border: none;
   cursor: pointer;
-
+  border-radius: 20px;
   &:disabled {
     background-color: #ccc;
     cursor: not-allowed;
@@ -49,6 +52,9 @@ const Button = styled.button`
 `;
 
 const CreateChatRoom = () => {
+  const roomContext = useContext(RoomContext);
+  const showComponent= roomContext.showComponent;
+  const handleshow = roomContext.showCreat;
   const {uid} = auth.currentUser
   let [name, setName] = useState('');
   let [description, setDescription] = useState('');
@@ -64,8 +70,10 @@ const CreateChatRoom = () => {
         timestamp: serverTimestamp()
       });
       // console.log('Đã tạo một phòng');
+      
       setName('');
       setDescription('');
+      handleshow();
     } catch (error) {
       console.error('Error creating chat room: ', error);
       // Xử lý logic khi có lỗi xảy ra trong quá trình tạo phòng chat
@@ -82,9 +90,9 @@ const CreateChatRoom = () => {
 
   return (
     <Container>
-      <h2 >Create Chat Room</h2>
+      <h2 >Tạo phòng chat</h2>
       <FormGroup>
-        <Label>Name:</Label>
+        <Label>Tên:</Label>
         <Input
           type="text"
           value={name}
@@ -93,7 +101,7 @@ const CreateChatRoom = () => {
         />
       </FormGroup>
       <FormGroup>
-        <Label>Description:</Label>
+        <Label>Mô tả:</Label>
         <Input
           type="text"
           value={description}
@@ -103,7 +111,7 @@ const CreateChatRoom = () => {
    
       <FormGroup>
         <Button onClick={handleCreate} disabled={!name}>
-          Create
+          Tạo
         </Button>
       </FormGroup>
     </Container>
