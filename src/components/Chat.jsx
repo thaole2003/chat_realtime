@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext,useRef} from "react";
 import add from '../img/icon_add.png'
-import iconCacel from '../img/iconCancel.png'
+import iconCancel from '../img/iconCancel.png'
 import { db,auth } from '../firebase';
 import { query, collection,  onSnapshot,where,getDocs,getDoc,orderBy} from 'firebase/firestore';
 import SendMessage from "./SendMessage";
 import MessageChat from "./MessageChat";
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { RoomContext } from "../RoomContext"; 
-import Addmember from './Addmember';
+import AddMemberModal from './Modal/AddMemberModal';
 import LogOut from "./Auth/LogOut";
 import SignIn from "./Auth/SignIn";
 const Chat = ()=>{
@@ -74,8 +74,6 @@ const Chat = ()=>{
     }
   }, [isRoomIdSet, roomId]);
 
-  console.log(messages);
-
     return (
         <div className="chat flex flex-col relative gap-2">
         <div className="chatInfo w-full top-0 bg-violet-700">
@@ -86,11 +84,11 @@ const Chat = ()=>{
   <label htmlFor="" className="text-xl font-bold flex gap-2 content-center">
     <div className="hidden lg:block">Phòng chat :</div>
     <p className="text-white shadow-xl shadow-slate-200">{contextRoom.roomname} </p>  |
-    {user &&  roomId &&  <img onClick={handleButtonClick} className="pr-3 pb-2" src={!showComponent? add : iconCacel} alt="" /> } 
+    {user &&  roomId &&  <img onClick={handleButtonClick} className="pr-3 pb-2" src={!showComponent? add : iconCancel} alt="" /> } 
    
   </label>
 )}
-          {showComponent && <Addmember handleButtonClick ={handleButtonClick}/>}
+          {showComponent && <AddMemberModal setShowComponent ={setShowComponent}/>}
           </div>
           <div className="chatIcons">
           {user ? <LogOut user={user} /> : <SignIn />}

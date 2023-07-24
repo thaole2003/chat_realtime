@@ -6,7 +6,6 @@ const style = {
 const Chats = ({room})=>{
   const context = useContext(RoomContext);
   const handleClick = () => {
-    // console.log(room.id);
     context.functSetRoom(room.id,room.name)
         
   };
@@ -23,9 +22,9 @@ const Chats = ({room})=>{
           alt="Logo"
           className="w-8 h-8 rounded-full mr-3 hidden lg:block" // Tùy chỉnh kích thước và hình dạng của ảnh logo
         />
-        <div className="userChatInfo">
+        <div className="userChatInfo overflow-hidden">
           <span className="text-sm lg:text-lg">{room.name}</span>
-           <div className="hidden lg:block ">{room.description}</div>
+           <div className="hidden lg:block break-words  h-auto">{room.description}</div>
        </div>
      </div>
        </div>
