@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {auth, db} from '../firebase'
+import {auth, db} from '../../firebase'
 import {addDoc, collection, serverTimestamp} from 'firebase/firestore'
-import iconCancel from "../img/iconCancel.png";
+import iconCancel from "../../img/iconCancel.png"
 import Swal from 'sweetalert2';
 // Styled Components
 const Container = styled.div`
@@ -51,7 +51,7 @@ const Button = styled.button`
   }
 `;
 
-const CreateChatRoom = ({ setShowModalAdd }) => {
+const CreateChatRoom = ({ handleButtonClick }) => {
   const {uid} = auth.currentUser
   let [name, setName] = useState('');
   let [description, setDescription] = useState('');
@@ -79,7 +79,8 @@ const CreateChatRoom = ({ setShowModalAdd }) => {
       });
       setName('');
       setDescription('');
-      setShowModalAdd(false);
+      // setShowModalAdd(false);
+      handleButtonClick();
       Swal.fire(
         'Đã tạo thành công!',
         '',
@@ -90,7 +91,8 @@ const CreateChatRoom = ({ setShowModalAdd }) => {
     }
   };
   const handleCloseModal = async () => {
-    setShowModalAdd(false);
+    // setShowModalAdd(false);
+    handleButtonClick();
   }
   return (
     <Container>

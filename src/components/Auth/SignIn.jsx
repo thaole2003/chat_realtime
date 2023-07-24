@@ -53,11 +53,11 @@ const SignIn = () => {
   return (
     <div className={style.wrapper} onClick={googleSignIn}>
       <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-      <div class="google-btn">
-        <div class="google-icon-wrapper">
+      <div className="google-btn">
+        <div className="google-icon-wrapper">
           <img alt='logo' class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
         </div>
-        <p class="btn-text"><b>Sign in with Google</b></p>
+        <p className="btn-text"><b>Sign in with Google</b></p>
       </div>
     </div>
   );

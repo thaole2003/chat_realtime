@@ -13,7 +13,7 @@ const CenteredWrapper = styled.div`
 
 
 
-  z-index: 12;
+  z-index: 999;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -66,7 +66,7 @@ const Checkbox = styled.input`
   /* width: 8px; */
 `;
 
-const AddMemberModal = ({setShowComponent}) => {
+const AddMemberModal = ({handleButtonClick}) => {
     const roomContext = useContext(RoomContext);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [myU] = useAuthState(auth)
@@ -98,7 +98,6 @@ const AddMemberModal = ({setShowComponent}) => {
         fetchRoomData();
     }, [roomContext.roomid]);
     const handleCloseModal=()=>{
-        setShowComponent(false);
     }
     useEffect(() => {
         if (myU.uid) {
@@ -134,9 +133,8 @@ const AddMemberModal = ({setShowComponent}) => {
 
                 await updateDoc(roomRef, {users: updatedUsers});
                 setSelectedUsers([]);
-            
+                handleButtonClick()
 
-                setShowComponent(false);
                 Swal.fire(
                     'Đã mời thành công!',
                     '',
@@ -172,8 +170,8 @@ const AddMemberModal = ({setShowComponent}) => {
     return (
         <CenteredWrapper>
             <div className="flex justify-between ">
-                <h3>Mời thành viên mới</h3>
-                <div className='cursor-pointer ml-auto text-black ' onClick={handleCloseModal}>&otimes;</div>
+                <h3 className='text-black'>Mời thành viên mới</h3>
+                <div className='cursor-pointer ml-auto text-black ' onClick={handleButtonClick}>&otimes;</div>
         </div>
             <CheckBoxList>
                 {users.map((user) => (

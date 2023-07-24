@@ -1,8 +1,7 @@
 import Home from './pages/Home';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import "./style.scss";
-
-
+// import 'antd/dist/antd.css';
 function App() {
   return (
     <BrowserRouter>
