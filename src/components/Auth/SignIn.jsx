@@ -30,7 +30,6 @@ const SignIn = () => {
       if (!userExists) {
         // Tài khoản đăng nhập lần đầu
         const user = result.user;
-        console.log("user",user);
         const additionalUserInfo = result.providerId;
         try {
           await addDoc(collection(db, 'users'), {

@@ -13,5 +13,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 <p align="center"> 
     <img src="./public/demo.png"></img>
+    <img src="./public/demo1.png"></img>
+    <img src="./public/demo2.png"></img>
   </a>
 </p>

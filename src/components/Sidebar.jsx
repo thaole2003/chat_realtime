@@ -1,7 +1,6 @@
 import React,{useEffect,useState,useContext} from "react";
-import { query, collection, orderBy, onSnapshot ,where} from 'firebase/firestore';
-import iconCacel from '../img/iconCancel.png'
-import addg from "../img/addg.png";
+import { query, collection, onSnapshot ,where} from 'firebase/firestore';
+import addRoom from "../img/addg.png";
 import Navbar from "./Navbar"
 import Search from "./Search"
 import Chats from "./Chats"
@@ -9,15 +8,13 @@ import {auth,db} from '../firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
 import CreateChatRoom from "./ChatRoom";
 import styled from 'styled-components';
-import classNames from 'classnames';
-import { RoomContext } from "../RoomContext";
 
-const Sidebar = ()=>{
-  const roomContext = useContext(RoomContext);
-  const showComponent= roomContext.showComponent;
-  // const [showComponent, setShowComponent] = useState(false);
+const Sidebar = () => {
+  const [showModalAdd, setShowModalAdd] = useState(false);
 
-  const handleButtonClick = roomContext.showCreat;
+  const handleButtonClick = () => {
+    setShowModalAdd(!showModalAdd);
+  }
 
   const [rooms, setRooms] = useState([]);
   const [user] = useAuthState(auth)
@@ -37,9 +34,8 @@ const Sidebar = ()=>{
         unsubscribe();
       };
     }
-  }, [user?.uid]); 
-  // console.log(user);
-  // console.log(rooms[0].name);
+  }, [user?.uid]);
+
     return (
         <Container className="sidebar ">
         <Navbar />
@@ -50,11 +46,11 @@ const Sidebar = ()=>{
         <hr />
         {user && (
   <>
-    <Bt onClick={handleButtonClick} className="flex items-center p-2 gap-2">
-      <BtIMG src={!showComponent ?addg : iconCacel} alt="" />
+    <Btn onClick={handleButtonClick} className="flex items-center p-2 gap-2">
+      <BtnImg src={addRoom} alt="" />
       <div className="text-xl text-white hidden lg:block">Thêm phòng</div>
-    </Bt>
-    {showComponent && <CreateChatRoom />}
+    </Btn>
+    {showModalAdd && <CreateChatRoom setShowModalAdd={setShowModalAdd}/>}
   </>
 )}      <div className="chatroom overflow-y-scroll">
 
@@ -75,12 +71,12 @@ const Container = styled.div`
 
 
 `;
-const Bt = styled.button`
-padding: 10px;
+const Btn = styled.button`
+  padding: 10px;
   display: flex;
   align-items: center;
 `;
-const BtIMG = styled.img`
+const BtnImg = styled.img`
   width: 35px;
   height: 35px;
 `;

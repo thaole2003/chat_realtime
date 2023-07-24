@@ -12,7 +12,6 @@ const RoomProvider = ({ children }) => {
       setActiveRoom(id);
         setRoomid(id);
         setRoomname(name)
-        // console.log(roomid);
     }
     const showCreat = () =>{
       setShowComponent(!showComponent);
