@@ -1,22 +1,20 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { RoomContext } from "../RoomContext";
 const style = {
-  active: `bg-sky-700`
+  active: `bg-sky-700`,
 };
-const Chats = ({room})=>{
+const Chats = ({ room }) => {
   const context = useContext(RoomContext);
   const handleClick = () => {
-    context.functSetRoom(room.id,room.name)
-        
+    context.functSetRoom(room.id, room.name);
   };
 
-    return (
-   
-
-      <div
+  return (
+    <div
       className={`chats ${context.activeRoom === room.id ? style.active : ""}`}
-      onClick={handleClick}>
-        <div className="userChat flex items-center">
+      onClick={handleClick}
+    >
+      <div className="userChat flex items-center">
         <img
           src="https://images.pexels.com/photos/17286889/pexels-photo-17286889/free-photo-of-nh-ng-ng-i-dam-dong-am-nh-c-vui-v.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load" // Thay bằng đường dẫn đến ảnh logo của bạn
           alt="Logo"
@@ -24,14 +22,12 @@ const Chats = ({room})=>{
         />
         <div className="userChatInfo overflow-hidden">
           <span className="text-sm lg:text-lg">{room.name}</span>
-           <div className="hidden lg:block break-words  h-auto">{room.description}</div>
-       </div>
-     </div>
-       </div>
-               
-         
-
-
-    )
-}
+          <div className="hidden lg:block break-words  h-auto">
+            {room.description}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 export default Chats;

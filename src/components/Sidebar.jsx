@@ -15,7 +15,7 @@ const Sidebar = () => {
 
   const handleButtonClick = () => {
     setShowModalAdd(!showModalAdd);
-    setShowOverlay(!showModalAdd); // Toggle overlay state when showing/hiding modal
+    setShowOverlay(!showModalAdd);
   };
 
   const [rooms, setRooms] = useState([]);
@@ -39,24 +39,26 @@ const Sidebar = () => {
         unsubscribe();
       };
     }
-  }, [user?.uid]);
+  }, [user]);
 
   return (
     <Container className="sidebar">
       <Navbar />
-      <div className="z-50">
-        {user && rooms && <Search rooms={rooms} />}
-      </div>
+      <div className="z-50">{user && rooms && <Search rooms={rooms} />}</div>
       <hr />
       {user && (
         <>
-          <Btn onClick={handleButtonClick} className="flex items-center p-2 gap-2">
+          <Btn
+            onClick={handleButtonClick}
+            className="flex items-center p-2 gap-2"
+          >
             <BtnImg src={addRoom} alt="" />
             <div className="text-xl text-white hidden lg:block">Thêm phòng</div>
           </Btn>
-          {/* Use showOverlay state to conditionally display the overlay */}
           {showOverlay && <Overlay onClick={handleButtonClick} />}
-          {showModalAdd && <CreateChatRoom handleButtonClick={handleButtonClick} />}
+          {showModalAdd && (
+            <CreateChatRoom handleButtonClick={handleButtonClick} />
+          )}
         </>
       )}
       <div className="chatroom overflow-y-scroll">
@@ -89,6 +91,6 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-  z-index: 100; /* Ensure the overlay is on top of other elements */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
 `;
