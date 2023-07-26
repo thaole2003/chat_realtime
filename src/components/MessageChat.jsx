@@ -46,7 +46,7 @@ const Message = ({ message }) => {
                 }
               >
                 {" "}
-                <LikeFilled className="text-3xl  text-gray-100" />{" "}
+                <LikeFilled className="text-3xl  text-blue-500" />{" "}
               </Tooltip>
             </div>
           </div>
@@ -64,12 +64,12 @@ const Message = ({ message }) => {
                 alt="Avatar"
               />{" "}
             </Tooltip>
-            <div className="relative bg-blue-200 p-2 rounded-lg w-auto max-w-[80%] h-auto">
-              <div className="text-gray-800 break-words text-xl max-w-full h-auto cursor-pointer">
+            <div className="relative bottom-[-10px] flex flex-col w-auto max-w-[80%] h-auto">
+              <div className="text-gray-800  bg-white p-2 rounded-lg break-words text-xl max-w-full h-auto cursor-pointer">
                 {message.text}
               </div>
               {calculateTimeDifferenceInMinutes(message.createdAt) <= 59 ? (
-                <div className="text-gray-500 text-[8px] text-left">
+                <div className="text-gray-400 text-[8px] text-left">
                   {" "}
                   đã gửi {calculateTimeDifferenceInMinutes(
                     message.createdAt
@@ -77,7 +77,7 @@ const Message = ({ message }) => {
                   phút trước
                 </div>
               ) : (
-                <div className="text-gray-500 text-[8px]  text-left">
+                <div className="text-gray-400 text-[8px]  text-left">
                   {firebaseTimestampToHour(message.createdAt)}
                 </div>
               )}
@@ -110,7 +110,7 @@ const Message = ({ message }) => {
                 }
               >
                 {" "}
-                <LikeFilled className="text-3xl text-gray-100" />{" "}
+                <LikeFilled className="text-3xl text-blue-500" />{" "}
               </Tooltip>
             </div>
             <Tooltip title={message.name}>
@@ -126,14 +126,14 @@ const Message = ({ message }) => {
       {message.uid === auth.currentUser.uid &&
         message.text !== "" &&
         message.isSendLike !== true && (
-          <div className="flex items-end mb-2 w-[50%] float-right pb-2">
-            <div className="bg-blue-200  p-2 ml-auto rounded-lg w-auto max-w-[80%] h-auto">
-              <div className="text-gray-800 break-words text-xl">
+          <div className="flex  items-end  w-[50%] float-right pb-2">
+            <div className="   bottom-[-10px] flex flex-col ml-auto  w-auto max-w-[80%] h-auto">
+              <div className="text-gray-800 bg-blue-200  p-2 rounded-lg break-words text-xl">
                 {message.text}
               </div>
 
               {calculateTimeDifferenceInMinutes(message.createdAt) <= 59 ? (
-                <div className="text-gray-500 text-[8px] text-right">
+                <div className="text-gray-400 text-[8px] text-right">
                   {" "}
                   đã gửi {calculateTimeDifferenceInMinutes(
                     message.createdAt
@@ -141,7 +141,7 @@ const Message = ({ message }) => {
                   phút trước
                 </div>
               ) : (
-                <div className="text-gray-500 text-[8px] text-right">
+                <div className="text-gray-400 text-[8px] text-right">
                   {firebaseTimestampToHour(message.createdAt)}
                 </div>
               )}
@@ -149,7 +149,7 @@ const Message = ({ message }) => {
             <Tooltip title={message.name}>
               {" "}
               <img
-                className="w-8 h-8 rounded-full ml-4"
+                className="w-8  rounded-full ml-4 mb-[10px]"
                 src={message.photoURL}
                 alt="Avatar"
               />

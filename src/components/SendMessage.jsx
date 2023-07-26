@@ -57,9 +57,9 @@ const SendMessage = () => {
         type="submit"
       >
         {message.trim() === "" ? (
-          <LikeFilled className="text-3xl text-gray-300" />
+          <LikeFilled className="text-3xl text-blue-500" />
         ) : (
-          <SendOutlined className="text-3xl text-gray-300" />
+          <SendOutlined className="text-3xl text-blue-500" />
         )}
       </button>
     </form>
